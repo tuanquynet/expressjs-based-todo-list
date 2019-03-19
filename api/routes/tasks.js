@@ -1,64 +1,66 @@
 const express = require('express');
-const store = require('../store');
+// const store = require('../store');
+const {TaskModel} = require('../models/task');
 
 const router = express.Router();
 
 /* GET tasks listing. */
-router.get('/', function(req, res, next) {
-  res.json({tasks: store.tasks});
+router.get('/', async function(req, res, next) {
+	const tasks = await TaskModel.find({});
+	
+  res.json({tasks});
 });
 
 /* GET a task. */
-router.get('/:taskId', function(req, res, next) {
+router.get('/:taskId', async function(req, res, next) {
 	const {taskId} = req.params;
 	if (!taskId) {
 		throw new Error('Missing taskId');
 	}
-	const task = store.tasks.find(task => task.id === taskId);
+	const task = await TaskModel.findById(taskId);
 
   res.json({task: task});
 });
 
 /* POST a task*/
-router.post('/', function(req, res, next) {
+router.post('/', async function(req, res, next) {
 	const doc = req.body;
 	// CAUSE: It can be duplicated.
-	doc.id = new Date().getTime().toString();
-	store.tasks.push(doc);
-
-  res.json({task: doc});
+	const task = await TaskModel.create(doc);
+	
+  res.json({task});
 });
 
 /* POST a task*/
-router.patch('/:taskId', function(req, res, next) {
+router.patch('/:taskId', async function(req, res, next) {
 	const {taskId} = req.params;
 	if (!taskId) {
 		throw new Error('Missing taskId');
 	}
 	
 	const doc = req.body;
-	const task = store.tasks.find(task => task.id === taskId);
+	const task = await TaskModel.findById(taskId);
+	console.log('task');
+	console.log(task);
 
-	Object.assign(task, doc);
+	if (!task) {
+		throw new Error('No such task.');
+		// return next(new Error('No such task.'));
+	}
 
-  res.json({task: task});
+	await TaskModel.updateOne({_id: taskId}, doc);
+
+  res.json({task: Object.assign(task, doc)});
 });
 
 /* DELETE a task*/
-router.delete('/:taskId', function(req, res, next) {
+router.delete('/:taskId', async function(req, res, next) {
 	const {taskId} = req.params;
 	if (!taskId) {
 		throw new Error('Missing taskId');
 	}
 
-	const doc = req.body;
-	const index = store.tasks.findIndex(task => task.id === taskId);
-
-	if (index < 0) {
-		throw new Error('No such task.');
-	}
-
-	store.tasks.splice(index, 1);
+	await TaskModel.deleteOne({_id: taskId});
 
   res.json({result: true});
 });
