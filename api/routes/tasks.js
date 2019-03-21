@@ -62,7 +62,7 @@ router.delete('/:taskId', async function(req, res, next) {
 
 	await TaskModel.deleteOne({_id: taskId});
 
-  res.json({result: true});
+  res.json({task: {id: taskId}});
 });
 
 module.exports = router;

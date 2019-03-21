@@ -55,7 +55,7 @@ function* deleteTodo(url, payload) {
 	yield put({type: types.SENDING_REQUEST, sending:true});
 
 	try {
-		let response = yield call(fetch, url);
+		let response = yield call(fetch, url, {method: 'DELETE'});
 		yield put({type:types.SENDING_REQUEST, sending: false});
 		yield put({type:types.DELETE_TODO_COMPLETE, data:response});
 		return response;

@@ -9,21 +9,18 @@ import 'todomvc-app-css/index.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 
 import configureStore from './store/configureStore';
 import { getTodoRequest } from './actions'
 
-const {store, persistor} = configureStore();
+const {store} = configureStore();
 
 function renderRoot( ) {
 	getTodoRequest();
-	
+
 	ReactDOM.render((
 		<Provider store={store} >
-			<PersistGate loading={null} persistor={persistor}>
         <App />
-		    </PersistGate>
 		</Provider>
 	), document.getElementById('root'));
 }
