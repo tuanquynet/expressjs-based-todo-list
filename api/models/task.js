@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 const { Types } = mongoose.Schema;
 
 const TaskSchema = new Schema({
-	name: { type: Types.String, required: true },
-	complete: { type: Types.Boolean, required: true, default: false },
+	text: { type: Types.String, required: true },
+	completed: { type: Types.Boolean, required: true, default: false },
 });
 
 const TaskModel = mongoose.model('Task', TaskSchema);

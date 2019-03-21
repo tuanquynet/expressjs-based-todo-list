@@ -25,6 +25,8 @@ router.get('/:taskId', async function(req, res, next) {
 /* POST a task*/
 router.post('/', async function(req, res, next) {
 	const doc = req.body;
+	console.log('create task');
+	console.log(doc);
 	// CAUSE: It can be duplicated.
 	const task = await TaskModel.create(doc);
 	

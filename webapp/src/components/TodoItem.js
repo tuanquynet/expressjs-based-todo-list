@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import TodoTextInput from './TodoTextInput'
+import config from '../config';
 
 export default class TodoItem extends Component {
   static propTypes = {
     todo: PropTypes.object.isRequired,
     editTodo: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
-    completeTodo: PropTypes.func.isRequired
+    completeTodo: PropTypes.func.isRequired,
+    deleteTodoRequest: PropTypes.func.isRequired,
   }
 
   state = {
@@ -21,7 +23,8 @@ export default class TodoItem extends Component {
 
   handleSave = (id, text) => {
     if (text.length === 0) {
-      this.props.deleteTodo(id)
+      // this.props.deleteTodo(id)
+      this.props.deleteTodoRequest(`${config.apiUrl}/tasks/${id}`);
     } else {
       this.props.editTodo(id, text)
     }
@@ -29,7 +32,7 @@ export default class TodoItem extends Component {
   }
 
   render() {
-    const { todo, completeTodo, deleteTodo } = this.props
+    const { todo, completeTodo, deleteTodoRequest } = this.props
 
     let element
     if (this.state.editing) {
@@ -49,7 +52,7 @@ export default class TodoItem extends Component {
             {todo.text}
           </label>
           <button className="destroy"
-                  onClick={() => deleteTodo(todo.id)} />
+                  onClick={() => deleteTodoRequest(`${config.apiUrl}/tasks/${todo.id}`)} />
         </div>
       )
     }
