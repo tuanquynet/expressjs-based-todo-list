@@ -1,6 +1,11 @@
 import {  /*put, call,*/ fork } from 'redux-saga/effects';
 import {doFetch as fetch} from '../helpers/request';
-import {getTodoFlow, addTodoFlow, deleteTodoFlow} from './todo';
+import {
+	getTodoFlow,
+	addTodoFlow,
+	deleteTodoFlow,
+	updateTodoFlow,
+} from './todo';
 
 export function fetchApi(url) {
 	return fetch( url )
@@ -18,4 +23,5 @@ export default function* root() {
 	yield fork(getTodoFlow);
 	yield fork(addTodoFlow);
 	yield fork(deleteTodoFlow);
+	yield fork(updateTodoFlow);
 }

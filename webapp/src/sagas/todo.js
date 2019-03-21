@@ -79,9 +79,9 @@ function* updateTodo(url, payload) {
 	yield put({type: types.SENDING_REQUEST, sending:true});
 
 	try {
-		let response = yield call(fetch, url);
+		let response = yield call(fetch, url, {method: 'PATCH', body: JSON.stringify(payload)});
 		yield put({type:types.SENDING_REQUEST, sending: false});
-		yield put({type:types.DELETE_TODO_COMPLETE, data:response});
+		yield put({type:types.UPDATE_TODO_COMPLETE, data:response});
 		return response;
 	} catch (error) {
 		yield put({type: types.REQUEST_ERROR, error: error.message});
@@ -92,9 +92,9 @@ export function* updateTodoFlow() {
 	const INFINITE = true;
 
 	while (INFINITE) {
-		let request = yield take(types.DELETE_TODO_REQUEST);
+		let request = yield take(types.UPDATE_TODO_REQUEST);
 		let {url, payload} = request;
 
-		yield call(deleteTodo, url, payload);
+		yield call(updateTodo, url, payload);
 	}
 }

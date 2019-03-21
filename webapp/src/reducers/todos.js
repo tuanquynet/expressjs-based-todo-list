@@ -8,6 +8,7 @@ import {
   GET_TODO_COMPLETE,
   ADD_TODO_COMPLETE,
   DELETE_TODO_COMPLETE,
+  UPDATE_TODO_COMPLETE,
 } from '../constants/ActionTypes'
 
 const initialState = [
@@ -19,9 +20,9 @@ const initialState = [
 ]
 
 export default function todos(state = initialState, action) {
+  const tasks = [...state];
   switch (action.type) {
     case GET_TODO_COMPLETE:
-      
       return [...state, ...action.data.tasks];
     case ADD_TODO_COMPLETE:
       return [
@@ -29,7 +30,6 @@ export default function todos(state = initialState, action) {
         {...action.data.task},
       ]
     case DELETE_TODO_COMPLETE:
-      const tasks = [...state];
       const taskId = action.data.task.id;
       const index = tasks.findIndex(task => task.id === taskId);
       tasks.splice(index, 1);
@@ -37,6 +37,15 @@ export default function todos(state = initialState, action) {
       return [
         ...tasks,
       ]
+    case UPDATE_TODO_COMPLETE:
+      const newTask = action.data.task;
+      const finding = tasks.find(task => task.id === newTask.id);
+      Object.assign(finding, newTask);
+
+      return [
+        ...tasks,
+      ];
+
     case ADD_TODO:
       return [
         ...state,
