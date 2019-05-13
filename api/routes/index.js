@@ -6,4 +6,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+/* GET home page. */
+router.get('/available', function(req, res, next) {
+  res.json({available: true});
+});
+
 module.exports = router;
