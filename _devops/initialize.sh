@@ -23,23 +23,11 @@ sudo apt-get update
 # Install NodeJS, git, mongodb, python 2.7.x (to compile bcrypt)
 sudo apt-get install -y nodejs git mongodb build-essential python
 
-# Write the auto start script for mongodb
-echo "Writing MongoDB startup service script:"
+#check mongo
+mongo --version
 
-cat << EOL | sudo tee /etc/systemd/system/mongodb.service
-[Unit]
-Description=High-performance, schema-free document-oriented database
-After=network.target
-Documentation=https://docs.mongodb.org/manual
-
-[Service]
-User=mongodb
-Group=mongodb
-ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
-
-[Install]
-WantedBy=multi-user.target
-EOL
+#check mongo
+node --version
 
 # Add public key to gitlab
 cat ~/.ssh/id_rsa.pub
@@ -59,7 +47,7 @@ APP_DIR=~/apps/todo-list/
 cd $APP_DIR
 
 # repo: https://github.com/tuanquynet/expressjs-based-todo-list.git
-git clone <repo>
+git clone <your-repo-here>
 # Checkout master branch of repo
 git checkout master
 
