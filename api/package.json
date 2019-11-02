@@ -14,7 +14,7 @@
         "express": "~4.16.0",
         "hbs": "~4.0.1",
         "http-errors": "~1.6.2",
-        "mongoose": "^5.4.19",
+        "mongoose": "^5.7.5",
         "morgan": "~1.9.0",
         "nodemailer": "^5.1.1",
         "nodemon": "^1.18.10"
